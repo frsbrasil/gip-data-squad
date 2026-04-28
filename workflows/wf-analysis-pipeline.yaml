@@ -1,0 +1,39 @@
+name: wf-analysis-pipeline
+version: "1.0.0"
+description: "4-phase sequential data analysis pipeline"
+
+phases:
+  - id: frame
+    name: Frame the Question
+    agent: data-director
+    outputs: [question_brief, data_requirements]
+    checkpoint: user_review
+
+  - id: ingest
+    name: Ingest & Clean Data
+    agent: ingestion-agent
+    inputs: [data_requirements]
+    outputs: [clean_dataset, cleaning_log]
+    checkpoint: automated
+
+  - id: analyze
+    name: Analyze
+    parallel:
+      - agent: eda-agent
+        outputs: [eda_report, charts]
+      - agent: stats-agent
+        condition: "if statistical test required"
+        outputs: [stats_report]
+    checkpoint: automated
+
+  - id: report
+    name: Build Report
+    agent: reporting-agent
+    inputs: [eda_report, stats_report, charts]
+    outputs: [final_report]
+    checkpoint: user_review
+
+execution:
+  on_failure: halt_and_report
+  max_retries: 2
+  timeout_per_agent: 300

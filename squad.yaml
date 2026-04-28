@@ -1,0 +1,58 @@
+name: gip-data-squad
+version: "1.0.0"
+short-title: "GIP Data Analyst Squad"
+description: "5-agent data analysis squad — ingestion, EDA, statistics, visualization, and reporting."
+author: "Global Insight Partners"
+license: MIT
+slashPrefix: "gip-data"
+
+aios:
+  minVersion: "4.0.0"
+  type: squad
+
+tags:
+  - data-analysis
+  - eda
+  - etl
+  - statistics
+  - ml
+  - reporting
+  - visualization
+  - business-intelligence
+
+components:
+  agents:
+    - data-director.md
+    - ingestion-agent.md
+    - eda-agent.md
+    - stats-agent.md
+    - reporting-agent.md
+  tasks:
+    - run-analysis.md
+    - quick-explore.md
+    - build-report.md
+    - diagnose.md
+  workflows:
+    - wf-analysis-pipeline.yaml
+  checklists:
+    - output-quality.md
+
+config:
+  extends: extend
+
+routing_matrix:
+  ingest:
+    primary: ingestion-agent
+    triggers: ["import data","clean data","ETL","SQL query","build pipeline","connect database","load CSV","data cleaning"]
+  eda:
+    primary: eda-agent
+    triggers: ["explore data","EDA","find patterns","correlation","distribution","outliers","profile dataset"]
+  statistics:
+    primary: stats-agent
+    triggers: ["hypothesis test","regression","forecast","significance","ML","model","predict","statistical analysis"]
+  reporting:
+    primary: reporting-agent
+    triggers: ["write report","KPI summary","exec deck","data story","slide deck","stakeholder","export results"]
+  full_pipeline:
+    primary: data-director
+    triggers: ["run analysis","full analysis","data squad","analyze this","run pipeline"]
